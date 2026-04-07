@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard {% endblock %}
+
+{% block nav_links %}
+    <li><a href="{% url 'AdminHome' %}" class="nav-pill active-pill"><i class="fa fa-tachometer-alt"></i> Dashboard</a></li>
+    <li><a href="{% url 'RegisterUsersView' %}" class="nav-pill user-pill"><i class="fa fa-users-cog"></i> User Management</a></li>
+{% endblock %}
+
+{% block auth_links %}
+    <a href="{% url 'index' %}" class="nav-pill admin-pill" style="background: linear-gradient(135deg, #7f1d1d, #b91c1c); color: #fff !important; box-shadow: 0 6px 20px rgba(185, 28, 28, 0.4);"><i class="fa fa-power-off"></i> LOG OUT</a>
+{% endblock %}
+
+{% block contents %}
+    {% block admin_contents %}{% endblock %}
+{% endblock %}

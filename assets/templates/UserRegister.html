@@ -1,0 +1,333 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block contents %}
+<style>
+    /* Absolute Override to kill ghost caching */
+    .register-section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 120px 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Floating Orbs for Premium Aesthetic */
+    .orb-1,
+    .orb-2 {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        z-index: 0;
+        animation: float 10s ease-in-out infinite alternate;
+    }
+
+    .orb-1 {
+        width: 500px;
+        height: 500px;
+        background: rgba(212, 175, 55, 0.35);
+        top: -150px;
+        left: -150px;
+    }
+
+    .orb-2 {
+        width: 600px;
+        height: 600px;
+        background: rgba(181, 158, 103, 0.25);
+        bottom: -200px;
+        right: -150px;
+        animation-delay: -5s;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(0) scale(1);
+        }
+
+        100% {
+            transform: translateY(-40px) scale(1.15);
+        }
+    }
+
+    .register-card {
+        width: 100%;
+        max-width: 800px;
+        padding: 60px;
+        border-radius: 40px;
+        background: rgba(15, 15, 15, 0.95) !important;
+        backdrop-filter: blur(25px) !important;
+        -webkit-backdrop-filter: blur(25px) !important;
+        border: 1px solid rgba(212, 175, 55, 0.3) !important;
+        box-shadow: 0 50px 120px rgba(0, 0, 0, 0.9), inset 0 2px 20px rgba(255, 255, 255, 0.05) !important;
+        z-index: 10;
+        position: relative;
+    }
+
+    .register-card h2 {
+        font-family: 'Outfit', sans-serif;
+        font-size: 40px;
+        font-weight: 800;
+        margin-bottom: 40px;
+        text-align: center;
+        color: #fff;
+    }
+
+    .register-card h2 span {
+        background: linear-gradient(135deg, #d4af37 0%, #9a7b2c 100%) !important;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+        text-align: left;
+    }
+
+    .form-group-custom label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #d4af37 !important;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+    }
+
+    .custom-input {
+        background: rgba(15, 15, 15, 0.6) !important;
+        backdrop-filter: blur(10px) !important;
+        -webkit-backdrop-filter: blur(10px) !important;
+        border: 1px solid rgba(212, 175, 55, 0.2) !important;
+        color: #fff !important;
+        border-radius: 12px !important;
+        padding: 16px 20px !important;
+        width: 100%;
+        font-size: 15px;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    .custom-input:focus {
+        background: rgba(25, 25, 25, 0.9) !important;
+        border-color: #d4af37 !important;
+        box-shadow: 0 0 25px rgba(212, 175, 55, 0.4) !important;
+        transform: translateY(-2px);
+        outline: none;
+    }
+
+    .btn-reg-premium {
+        grid-column: span 2;
+        padding: 18px;
+        background: linear-gradient(135deg, #d4af37 0%, #9a7b2c 100%) !important;
+        color: #000 !important;
+        font-size: 18px;
+        font-weight: 800;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        margin-top: 20px;
+        box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4) !important;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-reg-premium::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -60%;
+        width: 20%;
+        height: 200%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: rotate(30deg);
+        transition: all 0.6s ease;
+        pointer-events: none;
+    }
+
+    .btn-reg-premium:hover::after {
+        left: 140%;
+    }
+
+    .btn-reg-premium:hover {
+        transform: translateY(-3px);
+        filter: brightness(1.2);
+        box-shadow: 0 20px 50px rgba(212, 175, 55, 0.6) !important;
+    }
+
+    @media (max-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .btn-reg-premium {
+            grid-column: span 1;
+        }
+    }
+
+    /* Alert System */
+    .alert-premium {
+        border-radius: 10px;
+        font-size: 14px;
+        margin-bottom: 25px;
+        padding: 15px;
+        border: 1px solid transparent;
+    }
+
+    .alert-success-custom {
+        background: var(--success-bg);
+        border-color: var(--success-border);
+        color: var(--success);
+    }
+
+    .alert-error-custom {
+        background: rgba(239, 68, 68, 0.1);
+        border-color: rgba(239, 68, 68, 0.2);
+        color: #fca5a5;
+    }
+</style>
+
+<div class="register-section">
+    <!-- Floating Orbs -->
+    <div class="orb-1"></div>
+    <div class="orb-2"></div>
+
+    <div class="register-card">
+        <form action="{% url 'UserRegisterActions' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="status" value="waiting">
+            <h2 style="color: #fff !important;">Registration Form</h2>
+
+            {% if form.errors %}
+            <div class="alert"
+                style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #eea4a4; border-radius: 10px; font-size: 14px; margin-bottom: 25px; padding: 15px;">
+                <strong>Validation Error:</strong> Please check your inputs.
+                <ul style="margin: 10px 0 0 20px; padding: 0;">
+                    {% for field in form %}
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            {% if messages %}
+            {% for message in messages %}
+            <div
+                class="alert-premium {% if message.tags == 'success' %}alert-success-custom{% else %}alert-error-custom{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+
+            <div class="form-grid">
+                <div class="form-group-custom">
+                    <label>Full Name</label>
+                    <div style="position: relative;">
+                        <i class="fa fa-user"
+                            style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: rgba(212, 175, 55, 0.6); font-size: 16px;"></i>
+                        <input class="custom-input" placeholder="Letters only" type="text" name="name"
+                            pattern="[a-zA-Z\s]+" title="Enter characters only" style="padding-left: 50px !important;"
+                            required>
+                    </div>
+                </div>
+
+                <div class="form-group-custom">
+                    <label>Login ID</label>
+                    <div style="position: relative;">
+                        <i class="fa fa-fingerprint"
+                            style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: rgba(212, 175, 55, 0.6); font-size: 16px;"></i>
+                        <input class="custom-input" placeholder="Alphanumeric" type="text" name="loginid"
+                            pattern="[a-zA-Z0-9]+" title="Enter alphanumeric characters only"
+                            style="padding-left: 50px !important;" required>
+                    </div>
+                </div>
+
+                <div class="form-group-custom">
+                    <label>Mobile</label>
+                    <div style="position: relative;">
+                        <i class="fa fa-phone"
+                            style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: rgba(212, 175, 55, 0.6); font-size: 16px;"></i>
+                        <input class="custom-input" placeholder="10 Digits (5-9 start)" type="text" name="mobile"
+                            pattern="[56789][0-9]{9}" title="Must be 10 digits starting with 5-9"
+                            style="padding-left: 50px !important;" required>
+                    </div>
+                </div>
+
+                <div class="form-group-custom">
+                    <label>Email</label>
+                    <div style="position: relative;">
+                        <i class="fa fa-envelope"
+                            style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: rgba(212, 175, 55, 0.6); font-size: 16px;"></i>
+                        <input class="custom-input" placeholder="email@example.com" type="email" name="email"
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Enter a valid email address"
+                            style="padding-left: 50px !important;" required>
+                    </div>
+                </div>
+
+                <div class="form-group-custom" style="grid-column: span 2;">
+                    <label>Address</label>
+                    <div style="position: relative;">
+                        <i class="fa fa-map-marker-alt"
+                            style="position: absolute; left: 18px; top: 30px; color: rgba(212, 175, 55, 0.6); font-size: 16px;"></i>
+                        <textarea class="custom-input" placeholder="Line 1, Line 2" name="address" rows="2"
+                            style="padding-left: 50px !important;" required></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group-custom">
+                    <label>City</label>
+                    <div style="position: relative;">
+                        <i class="fa fa-city"
+                            style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: rgba(212, 175, 55, 0.6); font-size: 16px;"></i>
+                        <input class="custom-input" placeholder="Letters only" type="text" name="city"
+                            pattern="[A-Za-z\s]+" title="Enter characters only" style="padding-left: 50px !important;"
+                            required>
+                    </div>
+                </div>
+
+                <div class="form-group-custom">
+                    <label>State</label>
+                    <div style="position: relative;">
+                        <i class="fa fa-flag"
+                            style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: rgba(212, 175, 55, 0.6); font-size: 16px;"></i>
+                        <input class="custom-input" placeholder="Letters only" type="text" name="state"
+                            pattern="[A-Za-z\s]+" title="Enter characters only" style="padding-left: 50px !important;"
+                            required>
+                    </div>
+                </div>
+
+                <div class="form-group-custom">
+                    <label>Locality</label>
+                    <div style="position: relative;">
+                        <i class="fa fa-map-pin"
+                            style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: rgba(212, 175, 55, 0.6); font-size: 16px;"></i>
+                        <input class="custom-input" placeholder="Locality" type="text" name="locality"
+                            style="padding-left: 50px !important;" required>
+                    </div>
+                </div>
+
+                <div class="form-group-custom">
+                    <label>Password</label>
+                    <div style="position: relative;">
+                        <i class="fa fa-lock"
+                            style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: rgba(212, 175, 55, 0.6); font-size: 16px;"></i>
+                        <input class="custom-input" placeholder="8+ Chars (1 Upper, 1 lower, 1 Digit)" type="password"
+                            name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                            title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                            style="padding-left: 50px !important;" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-reg-premium">Create Free Account</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

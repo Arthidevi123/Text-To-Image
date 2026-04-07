@@ -1,0 +1,146 @@
+{% extends 'admins/adminbase.html' %}
+{% load static %}
+
+{% block admin_contents %}
+<style>
+    /* Uptake-Style Admin Table */
+    .admin-table-section {
+        padding: 140px 0 100px 0;
+        min-height: 100vh;
+    }
+
+    .table-card {
+        padding: 50px;
+        background: #0a0a0f;
+        border: 1px solid var(--glass-border);
+        border-radius: 40px;
+        box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+        overflow-x: auto;
+    }
+
+    .table-card h2 {
+        font-family: 'Outfit', sans-serif;
+        font-size: 38px;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .table-card h2 span {
+        background: var(--premium-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .custom-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+    }
+
+    .custom-table th {
+        padding: 20px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        border: none;
+    }
+
+    .custom-table tbody tr {
+        background: rgba(255, 255, 255, 0.02);
+        transition: all 0.3s ease;
+    }
+
+    .custom-table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.05);
+        transform: scale(1.005);
+    }
+
+    .custom-table td {
+        padding: 20px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #fff;
+        border-top: 1px solid var(--glass-border);
+        border-bottom: 1px solid var(--glass-border);
+        vertical-align: middle;
+    }
+
+    .custom-table td:first-child { border-left: 1px solid var(--glass-border); border-radius: 12px 0 0 12px; }
+    .custom-table td:last-child { border-right: 1px solid var(--glass-border); border-radius: 0 12px 12px 0; }
+
+    .status-pill {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .status-waiting { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2); }
+    .status-active { background: rgba(212, 175, 55, 0.1); color: #d4af37; border: 1px solid rgba(212, 175, 55, 0.2); }
+
+    .btn-admin {
+        padding: 10px 18px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none !important;
+        transition: all 0.3s ease;
+    }
+
+    .btn-activate { background: rgba(212, 175, 55, 0.1); color: var(--primary); border: 1px solid rgba(212, 175, 55, 0.2); }
+    .btn-activate:hover { background: var(--primary); color: #fff; }
+
+    .btn-delete { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); }
+    .btn-delete:hover { background: #ef4444; color: #fff; }
+</style>
+
+<div class="admin-table-section">
+    <div class="container">
+        <div class="table-card">
+            <h2>User <span>Details</span></h2>
+            
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Expert Name</th>
+                        <th>Identity</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in data %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td style="color: var(--primary); font-weight: 700;">{{i.name}}</td>
+                        <td><code>{{i.loginid}}</code></td>
+                        <td style="color: var(--text-muted);">{{i.email}}</td>
+                        <td>
+                            <span class="status-pill {% if i.status == 'waiting' %}status-waiting{% else %}status-active{% endif %}">
+                                {{i.status}}
+                            </span>
+                        </td>
+                        <td>
+                            {% if i.status == 'waiting' %}
+                            <a class="btn-admin btn-activate" href="/ActivaUsers/?uid={{ i.id }}">Activate</a>
+                            {% else %}
+                            <a class="btn-admin btn-delete" href="/DeleteUsers/?uid={{ i.id }}">Delete</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

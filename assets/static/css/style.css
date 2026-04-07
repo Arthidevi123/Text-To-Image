@@ -1,0 +1,51 @@
+/* 
+   ==========================================================================
+   GOLDEN OBSIDIAN THEME OVERRIDES
+   ========================================================================== 
+*/
+
+:root {
+    --primary: #d4af37;
+    --primary-glow: rgba(212, 175, 55, 0.4);
+    --bg-deep: #080808;
+    --bg-card: rgba(18, 18, 18, 0.95);
+    --text-muted: #b59e67;
+    --premium-gradient: linear-gradient(135deg, #d4af37 0%, #9a7b2c 100%);
+}
+
+/* Global Button Refinement */
+.btn-primary, .btn-submit, .btn-generate {
+    background: var(--premium-gradient) !important;
+    border: none !important;
+    color: #000 !important;
+    font-weight: 700 !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 15px var(--primary-glow) !important;
+}
+
+.btn-primary:hover, .btn-submit:hover, .btn-generate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px var(--primary-glow) !important;
+    filter: brightness(1.1);
+}
+
+/* Glassmorphism Cards */
+.glass-card {
+    background: var(--bg-card) !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5) !important;
+}
+
+/* Highlight Text */
+.highlight-gold {
+    color: var(--primary) !important;
+    font-weight: 800;
+}
+
+/* Navbar Scrolled State */
+.header.scrolled {
+    background: rgba(10, 10, 10, 0.98) !important;
+    border-bottom: 2px solid var(--primary) !important;
+}

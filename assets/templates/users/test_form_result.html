@@ -1,0 +1,138 @@
+{% extends 'users/userbase.html' %}
+{% load static %}
+
+{% block user_contents %}
+<style>
+    /* Uptake-Style Result Presentation */
+    .result-section {
+        padding: 160px 20px 100px 20px;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+    }
+
+    .result-container {
+        width: 100%;
+        max-width: 1000px;
+        padding: 60px;
+        background: #0a0a0f;
+        border: 1px solid var(--glass-border);
+        border-radius: 40px;
+        box-shadow: 0 50px 150px rgba(0, 0, 0, 0.8);
+        text-align: center;
+    }
+
+    .result-container h2 {
+        font-family: 'Outfit', sans-serif;
+        font-size: 42px;
+        font-weight: 800;
+        margin-bottom: 40px;
+        color: #fff;
+    }
+
+    .result-container h2 span {
+        background: var(--premium-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .prompt-preview {
+        padding: 25px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        margin-bottom: 40px;
+        text-align: left;
+    }
+
+    .prompt-preview label {
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        letter-spacing: 2px;
+        margin-bottom: 10px;
+    }
+
+    .prompt-preview p {
+        font-size: 18px;
+        color: var(--primary);
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .image-showcase {
+        position: relative;
+        border-radius: 30px;
+        overflow: hidden;
+        border: 1px solid var(--glass-border);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+        margin-bottom: 50px;
+        transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .image-showcase:hover {
+        transform: scale(1.02);
+    }
+
+    .image-showcase img {
+        width: 100%;
+        display: block;
+    }
+
+    .btn-back-gen,
+    .btn-download {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 32px;
+        background: rgba(255, 255, 255, 0.05);
+        color: #fff !important;
+        font-weight: 700;
+        border-radius: 12px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-back-gen:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(-5px);
+    }
+
+    .btn-download {
+        background: var(--primary);
+        box-shadow: 0 10px 30px var(--primary-glow);
+    }
+
+    .btn-download:hover {
+        transform: translateY(-3px);
+        filter: brightness(1.1);
+        box-shadow: 0 15px 40px var(--primary-glow);
+    }
+</style>
+
+<div class="result-section">
+    <div class="result-container">
+        <h2>Image <span>Generated</span> </h2>
+
+        <div class="prompt-preview">
+            <label>Input Blueprint</label>
+            <p>"{{prompt}}"</p>
+        </div>
+
+        <div class="image-showcase">
+            <img src="{{ image_url }}" alt="AI Reconstructed Visual" />
+        </div>
+
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{% url 'test_text_to_image' %}" class="btn-back-gen">
+                <i class="fa fa-arrow-left"></i> Back
+            </a>
+            <a href="{{ image_url }}" download="generated_image.png" class="btn-download">
+                <i class="fa fa-download"></i> Save Image
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

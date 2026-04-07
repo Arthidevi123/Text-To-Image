@@ -1,0 +1,164 @@
+{% extends 'users/userbase.html' %}
+{% load static %}
+
+{% block user_contents %}
+<style>
+    /* Uptake-Style Dashboard */
+    .user-home-section {
+        padding: 120px 0 60px 0;
+        min-height: 100vh;
+    }
+
+    .welcome-banner {
+        padding: 60px 40px;
+        border-radius: 30px;
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(181, 158, 103, 0.05) 100%);
+        border: 1px solid var(--glass-border);
+        margin-bottom: 40px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    @media (max-width: 768px) {
+        .user-home-section {
+            padding: 100px 15px 100px 15px;
+        }
+        .welcome-banner {
+            padding: 40px 25px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        .welcome-banner h1 {
+            font-size: 32px !important;
+        }
+        .welcome-banner p {
+            font-size: 16px !important;
+            margin: 0 auto 30px auto;
+        }
+    }
+
+    .welcome-banner::after {
+        content: '';
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        background: var(--primary-glow);
+        filter: blur(100px);
+        top: -150px;
+        right: -150px;
+        z-index: -1;
+    }
+
+    .welcome-banner h1 {
+        font-family: 'Outfit', sans-serif;
+        font-size: 56px;
+        font-weight: 800;
+        margin-bottom: 20px;
+        color: #fff;
+    }
+
+    .welcome-banner h1 span {
+        background: var(--premium-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .welcome-banner p {
+        font-size: 20px;
+        color: var(--text-muted);
+        max-width: 600px;
+        line-height: 1.6;
+        margin-bottom: 40px;
+    }
+
+    .action-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+    }
+
+    .action-card {
+        padding: 30px;
+        background: #0a0a0f;
+        border: 1px solid var(--glass-border);
+        border-radius: 25px;
+        transition: all 0.4s ease;
+        text-align: left;
+    }
+
+    .action-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--primary);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    }
+
+    .action-card i {
+        font-size: 32px;
+        margin-bottom: 20px;
+        background: var(--premium-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .action-card h3 {
+        font-size: 22px;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 12px;
+    }
+
+    .action-card p {
+        font-size: 14px;
+        color: var(--text-muted);
+        margin-bottom: 25px;
+        line-height: 1.5;
+    }
+
+    .btn-dashboard {
+        display: inline-flex;
+        align-items: center;
+        padding: 12px 24px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        color: #fff !important;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-dashboard:hover {
+        background: var(--primary);
+        box-shadow: 0 10px 20px var(--primary-glow);
+    }
+</style>
+
+<div class="user-home-section">
+    <div class="container">
+        <div class="welcome-banner">
+            <h1>Welcome Back, <span>Creator</span></h1>
+            <p>Ready to construct your next visual masterpiece? Our AI engine is primed and waiting for your vision.</p>
+            <a href="{% url 'test_text_to_image' %}" class="btn-dashboard" style="background: var(--primary); padding: 18px 36px; font-size: 16px;">Launch Image Architect</a>
+        </div>
+
+        <div class="action-cards">
+            <div class="action-card">
+                <i class="fa fa-magic"></i>
+                <h3>Visual Architect</h3>
+                <p>Convert your textual descriptions into high-resolution images in seconds using our latest diffusion model.</p>
+                <a href="{% url 'test_text_to_image' %}" class="btn-dashboard">Create Now</a>
+            </div>
+
+             
+
+            <div class="action-card">
+                <i class="fa fa-user-circle"></i>
+                <h3>Secure Profile</h3>
+                <p>Manage your account credentials, view usage statistics, and update your personal secure preferences.</p>
+                <a href="#" class="btn-dashboard">Manage Account</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

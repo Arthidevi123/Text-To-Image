@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}User Studio - AI Generator{% endblock %}
+
+{% block auth_links %}
+    <a href="{% url 'index' %}" class="nav-pill admin-pill" style="margin-left: 20px;">
+        <i class="fa fa-power-off"></i> Sign Out
+    </a>
+{% endblock %}
+
+{% block nav_links %}
+    <li>
+        <a href="{% url 'UserHome' %}" class="nav-pill user-pill">
+            <i class="fa fa-th-large"></i> Dashboard
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'test_text_to_image' %}" class="nav-pill active-pill">
+            <i class="fa fa-magic"></i> Image Architect
+        </a>
+    </li>
+{% endblock %}
+
+{% block contents %}
+    {% block user_contents %}{% endblock %}
+{% endblock %}

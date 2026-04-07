@@ -1,0 +1,129 @@
+{% extends 'admins/adminbase.html' %}
+{% load static %}
+
+{% block admin_contents %}
+<style>
+    /* Uptake-Style Admin Dashboard */
+    .admin-home-section {
+        padding: 140px 0 100px 0;
+        min-height: 100vh;
+    }
+
+    .admin-hero {
+        text-align: center;
+        margin-bottom: 80px;
+    }
+
+    .admin-hero h1 {
+        font-family: 'Outfit', sans-serif;
+        font-size: 64px;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 20px;
+        letter-spacing: -2px;
+    }
+
+    .admin-hero h1 span {
+        background: var(--premium-gradient);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .admin-hero p {
+        font-size: 20px;
+        color: var(--text-muted);
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+    }
+
+    .stat-card {
+        padding: 40px;
+        background: #0a0a0f;
+        border: 1px solid var(--glass-border);
+        border-radius: 30px;
+        text-align: left;
+        transition: all 0.4s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--primary);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+    }
+
+    .stat-card h4 {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 15px;
+    }
+
+    .stat-card .value {
+        font-size: 38px;
+        font-weight: 800;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .stat-card .value i {
+        font-size: 24px;
+        color: var(--primary);
+    }
+
+    .stat-card .trend {
+        font-size: 14px;
+        font-weight: 600;
+        color: #d4af37;
+        margin-top: 10px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+</style>
+
+<div class="admin-home-section">
+    <div class="container">
+        <div class="admin-hero">
+            <h1>System <span>Intelligence</span></h1>
+            <p>Comprehensive oversight of the Text-to-Image Generation ecosystem and user interactivity protocols.</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h4>Total Users</h4>
+                <div class="value"><i class="fa fa-users"></i> {{data|length}}+</div>
+                <div class="trend"><i class="fa fa-arrow-up"></i> 12% increase</div>
+            </div>
+
+            <div class="stat-card">
+                <h4>Engine Load</h4>
+                <div class="value"><i class="fa fa-bolt"></i> Optimal</div>
+                <div class="trend" style="color: var(--text-muted)">Latency < 1s</div>
+            </div>
+
+            <div class="stat-card">
+                <h4>Safety Index</h4>
+                <div class="value"><i class="fa fa-shield"></i> 99.9%</div>
+                <div class="trend"><i class="fa fa-check"></i> Standard compliant</div>
+            </div>
+
+            <div class="stat-card">
+                <h4>Storage Status</h4>
+                <div class="value"><i class="fa fa-database"></i> Stable</div>
+                <div class="trend" style="color: #f59e0b"><i class="fa fa-warning"></i> 85% utilization</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
