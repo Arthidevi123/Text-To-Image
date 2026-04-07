@@ -118,9 +118,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'assets/static'), ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Storage backend for static files with compression and caching
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-WHITENOISE_MANIFEST_STRICT = False
+# Storage backend for static files with compression (flexible version)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
