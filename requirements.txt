@@ -1,0 +1,7 @@
+﻿Django==5.0.6
+gunicorn
+whitenoise
+requests
+Pillow
+asgiref
+sqlparse
