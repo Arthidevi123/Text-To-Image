@@ -36,8 +36,10 @@ def UserRegisterActions(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'You have been successfully registered')
+            user = form.save(commit=False)
+            user.status = "activated" # Auto-activate for testing/live launch
+            user.save()
+            messages.success(request, 'You have been successfully registered! You can now log in.')
             form = UserRegistrationForm()
             return render(request, 'UserRegister.html', {'form': form})
         else:
