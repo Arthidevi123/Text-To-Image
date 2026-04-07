@@ -136,20 +136,23 @@ def test_text_to_image(request):
             provider_name = "Hugging Face Inference API"
 
         if response.status_code == 200:
-            image = Image.open(io.BytesIO(response.content))
+            # --- Bulletproof Production Strategy: Avoid Ephemeral Filesystem ---
+            if provider == "pollinations":
+                # For Pollinations, we can just use the API URL directly in the template!
+                image_url = API_URL
+            else:
+                # For Hugging Face, convert bytes to Base64 to avoid saving to 'media/'
+                import base64
+                encoded_string = base64.b64encode(response.content).decode("utf-8")
+                image_url = f"data:image/png;base64,{encoded_string}"
             
-            # Sanitize filename (remove special chars)
-            clean_prompt = "".join(x for x in prompt[:20] if x.isalnum() or x in "._- ").strip().replace(' ', '_')
-            filename = f"generated_{clean_prompt}_{os.urandom(4).hex()}.png"
-            
-            save_path = os.path.join(settings.MEDIA_ROOT, filename)
-            image.save(save_path)
+            print(f"DEBUG: Image successfully generated via {provider_name}")
 
             return render(
                 request,
                 "users/test_form_result.html",
                 {
-                    "image_url": settings.MEDIA_URL + filename,
+                    "image_url": image_url,
                     "prompt": prompt,
                     "provider": provider_name
                 }
@@ -158,7 +161,7 @@ def test_text_to_image(request):
             return HttpResponse(f"<h3>Image Generation Error</h3><p>Status: {response.status_code}</p><p>Response: {response.text}</p><p><a href='/test_text_to_image/'>Go Back</a></p>")
 
     except Exception as e:
-        return HttpResponse(f"Error: {str(e)}")
+        return HttpResponse(f"<h3>Critical Error</h3><p>{str(e)}</p><p><a href='/test_text_to_image/'>Go Back</a></p>")
 
  
 
