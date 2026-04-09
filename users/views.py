@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from django.core.files.storage import FileSystemStorage
 import os
 import re
@@ -43,8 +43,8 @@ def UserRegisterActions(request):
             user.status = "activated" # Auto-activate for testing/live launch
             user.save()
             messages.success(request, 'You have been successfully registered! You can now log in.')
-            form = UserRegistrationForm()
-            return render(request, 'UserRegister.html', {'form': form})
+            return redirect('UserLogin')
+
         else:
             for field, errors in form.errors.items():
                 for error in errors:

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ai-studio-cache-v1';
+const CACHE_NAME = 'ai-studio-cache-v2';
 const ASSETS_TO_CACHE = [
     '/',
     '/static/css/style.css',
@@ -35,6 +35,12 @@ self.addEventListener('activate', event => {
 
 // Fetch Event (Offline support)
 self.addEventListener('fetch', event => {
+    // Let the browser do its default handling for non-GET requests
+    // This is required to fix POST form submissions and 302 redirects in standalone PWA mode!
+    if (event.request.method !== 'GET') {
+        return;
+    }
+
     event.respondWith(
         caches.match(event.request).then(response => {
             return response || fetch(event.request);
