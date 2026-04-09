@@ -2,6 +2,9 @@ from django.contrib import messages
 from django.shortcuts import render, HttpResponse
 from django.core.files.storage import FileSystemStorage
 import os
+import re
+import base64
+import requests as req
 from django.conf import settings
 
 from users.forms import UserRegistrationForm
@@ -164,6 +167,40 @@ def test_text_to_image(request):
 
     except Exception as e:
         return HttpResponse(f"<h3>Critical Error</h3><p>{str(e)}</p><p><a href='/test_text_to_image/'>Go Back</a></p>")
+
+
+def download_generated_image(request):
+    """
+    Proxy view to facilitate image downloads, especially on mobile.
+    Accepts 'image_url' (URL or Base64) via POST.
+    """
+    if request.method != "POST":
+        return HttpResponse("Method not allowed", status=405)
+
+    image_data_raw = request.POST.get("image_url", "")
+    filename = "ai_generated_image.png"
+
+    try:
+        if image_data_raw.startswith("data:image"):
+            # Handle Base64 Data URI
+            format, imgstr = image_data_raw.split(';base64,')
+            ext = format.split('/')[-1]
+            data = base64.b64decode(imgstr)
+            content_type = f"image/{ext}"
+        elif image_data_raw.startswith("http"):
+            # Handle External URL (e.g. Pollinations)
+            response = req.get(image_data_raw, stream=True)
+            data = response.content
+            content_type = response.headers.get('Content-Type', 'image/png')
+        else:
+            return HttpResponse("Invalid image data", status=400)
+
+        response = HttpResponse(data, content_type=content_type)
+        response['Content-Disposition'] = f'attachment; filename="{filename}"'
+        return response
+
+    except Exception as e:
+        return HttpResponse(f"Download failed: {str(e)}", status=500)
 
  
 

@@ -29,6 +29,7 @@ urlpatterns = [
     path("UserLoginCheck/", usr.UserLoginCheck, name="UserLoginCheck"),
     path("UserHome/", usr.UserHome, name="UserHome"),
     path("test_text_to_image/", usr.test_text_to_image, name="test_text_to_image"),
+    path("download_generated_image/", usr.download_generated_image, name="download_generated_image"),
      
 ]
 

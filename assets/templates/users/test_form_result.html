@@ -129,10 +129,39 @@
             <a href="{% url 'test_text_to_image' %}" class="btn-back-gen">
                 <i class="fa fa-arrow-left"></i> Back
             </a>
-            <a href="{{ image_url }}" download="generated_image.png" class="btn-download">
-                <i class="fa fa-download"></i> Save Image
-            </a>
+            <button onclick="saveImage()" id="downloadBtn" class="btn-download" style="border: none; cursor: pointer;">
+                <i class="fa fa-download"></i> <span id="btnText">Save Image</span>
+            </button>
         </div>
+
+        <!-- Hidden form for proxy download -->
+        <form id="downloadForm" action="{% url 'download_generated_image' %}" method="POST" style="display: none;">
+            {% csrf_token %}
+            <input type="hidden" name="image_url" value="{{ image_url }}">
+        </form>
     </div>
 </div>
+
+<script>
+function saveImage() {
+    const btn = document.getElementById('downloadBtn');
+    const btnText = document.getElementById('btnText');
+    const imageUrl = "{{ image_url }}";
+    
+    // UI Feedback
+    btn.style.opacity = '0.7';
+    btn.style.pointerEvents = 'none';
+    btnText.innerText = 'Preparing...';
+
+    // We'll use the proxy form for consistent results across all devices
+    document.getElementById('downloadForm').submit();
+
+    // Reset UI after a short delay
+    setTimeout(() => {
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+        btnText.innerText = 'Save Image';
+    }, 3000);
+}
+</script>
 {% endblock %}

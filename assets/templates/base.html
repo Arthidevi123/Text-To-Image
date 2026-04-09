@@ -293,6 +293,9 @@
             position: relative;
             bottom: 0;
             width: 100%;
+        }
+
+        .footer.has-mobile-nav {
             margin-bottom: 70px; /* Space for mobile nav */
         }
 
@@ -400,6 +403,7 @@
     {% block contents %}
     {% endblock %}
     <!-- Mobile Bottom Navbar -->
+    {% if request.session.id %}
     <div class="mobile-bottom-nav d-lg-none">
         <a href="{% url 'index' %}" class="nav-item">
             <i class="fa fa-home"></i>
@@ -418,10 +422,11 @@
             <span>Profile</span>
         </a>
     </div>
+    {% endif %}
 
     <!-- footer -->
     <footer>
-        <div id="contact" class="footer fixed-bottom">
+        <div id="contact" class="footer fixed-bottom {% if request.session.id %}has-mobile-nav{% endif %}">
             <div class="container">
                 <div class="row pdn-top-30">
                     <div class="col-md-12 ">
